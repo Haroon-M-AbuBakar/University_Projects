@@ -1,0 +1,194 @@
+# include <iostream>
+# include <cstdlib>
+# include <ctime>
+# define max_size 15
+using namespace std;
+
+char all_attempts[max_size];
+int rear , front;
+
+struct Node
+{
+    char data;
+    Node* next;
+};
+
+void init()
+{
+    rear = -1;
+    front = 0;
+}
+
+bool isEmpty()
+{
+    return front>rear;
+}
+
+void enqueue_attempt(char attempt)
+{
+    all_attempts[++rear] = attempt;    
+}
+
+void display_attempts()
+ {
+    
+    cout<<"All Attempts : ";
+    for (int i = front; i <= rear; i++) 
+    {
+        cout<<all_attempts[i]<<" ";
+    }
+    cout<<endl;
+
+}
+
+class Guessed_Letters
+{
+    public:
+        Node* head;
+
+    Guessed_Letters()
+    {
+        head = NULL;
+    }
+
+    void insert(char letter)
+    {
+        Node* newNode = new Node();
+        newNode->data = letter;
+        newNode->next = head;
+        head = newNode;
+    }
+
+};
+
+void displayHangman(int wrongGuesses) 
+{
+    string hangman[] = 
+    {
+        "   _____   \n"
+        "  |     |  \n"
+        "        |  \n"
+        "        |  \n"
+        "        |  \n"
+        "        |  \n"
+        " ______|_\n",
+
+        "   _____   \n"
+        "  |     |  \n"
+        "  O     |  \n"
+        "        |  \n"
+        "        |  \n"
+        "        |  \n"
+        " ______|_\n",
+
+        "   _____   \n"
+        "  |     |  \n"
+        "  O     |  \n"
+        "  |     |  \n"
+        "        |  \n"
+        "        |  \n"
+        " ______|_\n",
+
+        "   _____   \n"
+        "  |     |  \n"
+        "  O     |  \n"
+        " /|     |  \n"
+        "        |  \n"
+        "        |  \n"
+        " ______|_\n",
+
+        "   _____   \n"
+        "  |     |  \n"
+        "  O     |  \n"
+        " /|\\    |  \n"
+        "        |  \n"
+        "        |  \n"
+        " ______|_\n",
+
+        "   _____   \n"
+        "  |     |  \n"
+        "  O     |  \n"
+        " /|\\    |  \n"
+        " /      |  \n"
+        "        |  \n"
+        " ______|_\n",
+
+        "   _____   \n"
+        "  |     |  \n"
+        "  O     |  \n"
+        " /|\\    |  \n"
+        " / \\    |  \n"
+        "        |  \n"
+        " ______|_\n"};
+        
+        cout<<hangman[wrongGuesses];
+
+}
+
+string chose_random_word()
+{
+    string words[] = {"nepal", "mongolia", "srilanka", "kazakhstan", "armenia"};
+    string hints[] = {"mountains" , " wild lands" , "beaches and tea plantations" , "big boi" , "One of the world's oldest countries , mountains and churches"};
+
+    int randomIndex = rand() % 5;
+
+    cout << hints[randomIndex] << endl;
+
+    return words[randomIndex];
+}
+
+
+int main()
+{
+    srand(time(0));
+    
+    Guessed_Letters correctly_guessed_letters;
+
+    string word_to_guess = chose_random_word();
+    string current_state(word_to_guess.size(),'-');
+
+
+    int max_attempts = 6;
+    int attempted_attempts = 0;
+    char guess;
+    while (attempted_attempts < max_attempts)
+    {
+        displayHangman(attempted_attempts);
+        cout<<"WORD TO GUESS : "<<current_state;
+        cout<<endl<<"ENTER A GUESS : ";
+        cin>>guess;
+
+        enqueue_attempt(guess);
+    
+
+        bool found = false;
+        for(int i = 0 ; i < word_to_guess.size() ; i++)
+        {
+            if (word_to_guess[i] == guess)
+            {
+                current_state[i] = guess;
+                found = true;
+                correctly_guessed_letters.insert(guess);
+            }
+        }
+    
+        if(!found)
+        {
+            attempted_attempts++;
+            cout<<"\nWrong Guess. Total Attempts Left : "<<max_attempts-attempted_attempts<<endl;
+        }
+    
+        if (current_state == word_to_guess)
+        {
+            cout<<"Congratulations! You've guessed the word: "<<word_to_guess<<endl;
+            display_attempts();
+            exit(0);
+        }
+    
+    }
+
+    displayHangman(6);
+    cout<<"\nGame Over , You haq1ve used up all your attempts."<<endl<<"The word was : "<<word_to_guess<<endl;
+    display_attempts();
+
+}
