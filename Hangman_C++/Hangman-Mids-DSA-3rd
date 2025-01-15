@@ -1,0 +1,75 @@
+# include <iostream>
+using namespace std;
+
+struct Node
+{
+    char data;
+    Node* next;
+};
+
+class Guessed_Letters
+{
+    public:
+        Node* head;
+
+    Guessed_Letters()
+    {
+        head = NULL;
+    }
+
+    void insert(char letter)
+    {
+        Node* newNode = new Node();
+        newNode->data = letter;
+        newNode->next = head;
+        head = newNode;
+    }
+
+};
+
+int main()
+{
+    Guessed_Letters correctly_guessed_letters;
+
+    string word_to_guess = "helicopter";
+    string current_state(word_to_guess.size(),'-');
+
+
+    int max_attempts = 6;
+    int attempted_attempts = 0;
+    char guess;
+    while (attempted_attempts < max_attempts)
+    {
+        cout<<"WORD TO GUESS : "<<current_state;
+        cout<<endl<<"ENTER A GUESS : ";
+        cin>>guess;
+    
+
+        bool found = false;
+        for(int i = 0 ; i < word_to_guess.size() ; i++)
+        {
+            if (word_to_guess[i] == guess)
+            {
+                current_state[i] = guess;
+                found = true;
+                correctly_guessed_letters.insert(guess);
+            }
+        }
+    
+        if(!found)
+        {
+            attempted_attempts++;
+            cout<<"\nWrong Guess. Total Attempts Left : "<<max_attempts-attempted_attempts<<endl;
+        }
+    
+        if (current_state == word_to_guess)
+        {
+            cout<<"Congratulations! You've guessed the word: "<<word_to_guess<<endl;
+            exit(0);
+        }
+    
+    }
+
+    cout<<"\nGame Over , You have used up all your attempts."<<endl<<"The word was : "<<word_to_guess;
+
+}
