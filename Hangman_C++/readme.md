@@ -1,0 +1,7 @@
+Hangman Game A simple console-based Hangman game implemented in C++.
+
+Features A fun word guessing game. Tracks the number of incorrect guesses. Allows the player to guess letters. Displays the progress of the word as the player makes guesses.
+
+Version 1: Mid Project This is the initial version of the Hangman game. Key features include: Single Word Guessing: The player has to guess the word ("helicopter") by inputting letters. Letter Tracking: Correctly guessed letters are tracked using a linked list (Guessed_Letters class). Limited Attempts: The player has a maximum of 6 incorrect attempts.
+
+Version 2: Final Project The final version introduces significant improvements and additional features: Random Word Selection: A word is randomly chosen from a predefined list (chose_random_word()), along with a hint to assist the player. Attempts History: All guesses made by the player are recorded and displayed at the end of the game, allowing players to review their attempts. ASCII Hangman Visualization: A visual hangman is displayed based on the number of wrong guesses, making the game more interactive and engaging. Hints for the Words: A hint is displayed alongside the word to be guessed, helping players have a better understanding of the word's context.
